@@ -61,6 +61,70 @@ section{padding:56px 0}
 .eyebrow::before{content:"";width:22px;height:2px;background:var(--aqua-br);border-radius:2px}
 .lead{color:var(--muted);font-size:17px;margin-top:14px;max-width:56ch}
 
+/* ---------- заставка ---------- */
+html.splash-on,html.splash-on body{overflow:hidden}
+.splash{
+  position:fixed;inset:0;z-index:999;overflow:hidden;
+  display:grid;place-items:center;
+  background:linear-gradient(178deg,#d6f1fa 0%,#8ad6ec 34%,#2ba3c8 68%,#0a6489 100%);
+  animation:splashOut .8s cubic-bezier(.4,0,.2,1) 2.2s forwards;
+}
+.splash.out{animation:splashOut .55s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes splashOut{
+  to{opacity:0;visibility:hidden;transform:scale(1.05)}
+}
+/* блики воды */
+.caustic{
+  position:absolute;border-radius:50%;filter:blur(46px);opacity:.5;pointer-events:none;
+  background:radial-gradient(circle,rgba(255,255,255,.95),rgba(255,255,255,0) 70%);
+}
+.c1{width:62vmin;height:62vmin;top:-12vmin;left:-10vmin;animation:drift 9s ease-in-out infinite}
+.c2{width:48vmin;height:48vmin;bottom:6vmin;right:-8vmin;animation:drift 11s ease-in-out infinite reverse}
+.c3{width:36vmin;height:36vmin;top:38%;left:52%;opacity:.35;animation:drift 7.5s ease-in-out infinite}
+@keyframes drift{
+  0%,100%{transform:translate3d(0,0,0) scale(1)}
+  50%{transform:translate3d(4vmin,-3vmin,0) scale(1.12)}
+}
+/* пузырьки */
+.bub{
+  position:absolute;bottom:-14vh;left:var(--x);width:var(--s);height:var(--s);
+  border-radius:50%;background:rgba(255,255,255,.42);
+  box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.6);
+  animation:rise var(--t) linear var(--d) infinite;
+}
+@keyframes rise{
+  0%{transform:translate3d(0,0,0);opacity:0}
+  12%{opacity:.85}
+  80%{opacity:.6}
+  100%{transform:translate3d(3vw,-118vh,0);opacity:0}
+}
+/* волны */
+.swave{position:absolute;left:0;bottom:0;width:220%;height:26vh;pointer-events:none}
+.sw1{fill:rgba(255,255,255,.22);animation:slide 13s linear infinite}
+.sw2{fill:rgba(255,255,255,.34);animation:slide 9s linear infinite reverse;bottom:-3vh;height:22vh}
+.sw3{fill:#fff;animation:slide 17s linear infinite;bottom:-7vh;height:20vh;opacity:.95}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* логотип */
+.splash-inner{
+  position:relative;z-index:3;text-align:center;padding:0 22px;
+  animation:markIn .85s cubic-bezier(.2,.8,.3,1) both;
+}
+@keyframes markIn{
+  from{opacity:0;transform:translateY(16px) scale(.94)}
+  to{opacity:1;transform:none}
+}
+.splash-card{
+  display:block;width:min(460px,84vw);height:auto;background:#fff;
+  border-radius:22px;padding:20px 22px;box-shadow:0 26px 60px rgba(4,44,62,.32);
+}
+.splash-sub{
+  display:block;margin-top:18px;color:#fff;font-weight:700;font-size:14px;
+  letter-spacing:.22em;text-transform:uppercase;text-shadow:0 2px 10px rgba(4,44,62,.35);
+}
+@media(prefers-reduced-motion:reduce){
+  .splash{display:none}
+}
+
 /* header */
 header{
   position:sticky;top:0;z-index:50;background:rgba(255,255,255,.86);
@@ -68,10 +132,7 @@ header{
 }
 .hdr{display:flex;align-items:center;justify-content:space-between;height:62px}
 .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:15px;letter-spacing:-.01em;text-decoration:none}
-.logo-mark{
-  width:38px;height:38px;border-radius:50%;flex:none;object-fit:cover;
-  background:#fff;border:1px solid var(--line);
-}
+.logo-mark{width:42px;height:42px;flex:none;object-fit:contain}
 .logo small{display:block;font-size:11px;font-weight:600;color:var(--muted);letter-spacing:0}
 .nav{display:none;gap:26px;font-size:15px;font-weight:600}
 .nav a{text-decoration:none;color:var(--muted)}
@@ -119,8 +180,8 @@ header{
 }
 .photo-card>img.shot{display:block;width:100%;height:auto}
 .badge-logo{
-  position:absolute;top:14px;left:14px;width:64px;height:64px;border-radius:50%;
-  object-fit:cover;background:#fff;box-shadow:0 6px 18px rgba(10,58,74,.28);
+  position:absolute;top:14px;left:14px;width:70px;height:70px;border-radius:50%;
+  object-fit:contain;background:#fff;padding:5px;box-shadow:0 6px 18px rgba(10,58,74,.28);
 }
 .photo-cap{
   position:absolute;left:0;right:0;bottom:0;padding:52px 20px 18px;color:#fff;
@@ -206,6 +267,13 @@ header{
 .price-row:last-child{border-bottom:0}
 .price-row span:first-child{color:var(--ink)}
 .price-row span:last-child{font-weight:700;white-space:nowrap;color:var(--deep)}
+.promo{
+  display:flex;gap:14px;align-items:flex-start;margin-top:18px;
+  background:#fff;border:1.5px dashed var(--aqua-br);border-radius:18px;padding:18px 20px;
+}
+.promo-ico{font-size:24px;line-height:1;flex:none}
+.promo b{display:block;font-size:16.5px}
+.promo span{display:block;color:var(--muted);font-size:15px;margin-top:3px}
 .price-note{margin-top:16px;font-size:14px;color:var(--muted)}
 
 /* team */
@@ -269,7 +337,7 @@ details p{padding:0 22px 20px;color:var(--muted);font-size:16px}
 .c-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
 .c-cta .btn-ghost{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.22)}
 
-.foot-logo{width:64px;height:64px;border-radius:50%;object-fit:cover;margin-bottom:14px}
+.foot-logo{width:min(260px,72vw);height:auto;border-radius:14px;margin-bottom:16px}
 footer{padding:30px 0 40px;text-align:center;color:var(--muted);font-size:14px}
 footer a{color:var(--aqua);text-decoration:none}
 
@@ -289,6 +357,27 @@ footer a{color:var(--aqua);text-decoration:none}
 </style>
 </head>
 <body>
+
+<div class="splash" id="splash">
+  <span class="caustic c1"></span>
+  <span class="caustic c2"></span>
+  <span class="caustic c3"></span>
+  <span class="bub" style="--x:8%;--s:16px;--t:7s;--d:0s"></span>
+  <span class="bub" style="--x:22%;--s:9px;--t:5.5s;--d:1.1s"></span>
+  <span class="bub" style="--x:37%;--s:22px;--t:8.5s;--d:.4s"></span>
+  <span class="bub" style="--x:54%;--s:12px;--t:6.2s;--d:1.8s"></span>
+  <span class="bub" style="--x:68%;--s:18px;--t:7.6s;--d:.9s"></span>
+  <span class="bub" style="--x:81%;--s:10px;--t:5.8s;--d:2.2s"></span>
+  <span class="bub" style="--x:92%;--s:14px;--t:6.8s;--d:1.5s"></span>
+  <svg class="swave sw1" viewBox="0 0 2880 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0,42 C120,74 240,10 360,30 C480,50 600,78 720,52 C840,26 960,60 1080,66 C1200,72 1320,38 1440,44 C1560,50 1680,80 1800,58 C1920,36 2040,58 2160,64 C2280,70 2400,40 2520,44 L2880,44 L2880,120 L0,120 Z"></path></svg>
+  <svg class="swave sw2" viewBox="0 0 2880 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0,42 C120,74 240,10 360,30 C480,50 600,78 720,52 C840,26 960,60 1080,66 C1200,72 1320,38 1440,44 C1560,50 1680,80 1800,58 C1920,36 2040,58 2160,64 C2280,70 2400,40 2520,44 L2880,44 L2880,120 L0,120 Z"></path></svg>
+  <svg class="swave sw3" viewBox="0 0 2880 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0,42 C120,74 240,10 360,30 C480,50 600,78 720,52 C840,26 960,60 1080,66 C1200,72 1320,38 1440,44 C1560,50 1680,80 1800,58 C1920,36 2040,58 2160,64 C2280,70 2400,40 2520,44 L2880,44 L2880,120 L0,120 Z"></path></svg>
+  <div class="splash-inner">
+    <img class="splash-card" src="img/logo-wide.jpg" fetchpriority="high"
+         alt="Центр раннего и грудничкового плавания Александры Макаровой">
+    <span class="splash-sub">Адлер · Сочи</span>
+  </div>
+</div>
 
 <header>
   <div class="wrap hdr">
@@ -353,7 +442,7 @@ footer a{color:var(--aqua);text-decoration:none}
       <div class="benefit"><span class="tick">✓</span><div><b>Крепче мышцы и осанка</b><span>Вода даёт равномерную нагрузку, которой малышу не хватает на суше.</span></div></div>
       <div class="benefit"><span class="tick">✓</span><div><b>Спокойный сон и аппетит</b><span>Самое частое, что отмечают родители уже после первых занятий.</span></div></div>
       <div class="benefit"><span class="tick">✓</span><div><b>Уверенность в воде</b><span>Ребёнок не боится бассейна и моря · важно для жизни на побережье.</span></div></div>
-      <div class="benefit"><span class="tick">✓</span><div><b>Доверие между мамой и малышом</b><span>Совместные занятия в воде · это ещё и телесный контакт и игра.</span></div></div>
+      <div class="benefit"><span class="tick">✓</span><div><b>Вы рядом и всё видите</b><span>Занятие проходит у вас на глазах · тренер комментирует каждое упражнение.</span></div></div>
     </div>
   </div>
 </section>
@@ -364,7 +453,7 @@ footer a{color:var(--aqua);text-decoration:none}
     <h2>Чем занимаемся</h2>
     <p class="lead">Программу подбираем под возраст и характер ребёнка · от первых погружений до уверенных заплывов.</p>
     <div class="grid grid-3">
-      <div class="card"><div class="ico">👶</div><h3>Грудничковое плавание</h3><p>Первое знакомство с водой, мягкая проводка, ныряние по готовности. Мама или папа в воде вместе с малышом.</p><span class="age">0–3 года</span></div>
+      <div class="card"><div class="ico">👶</div><h3>Грудничковое плавание</h3><p>Первое знакомство с водой, мягкая проводка, ныряние по готовности. В воде только тренер и малыш, вы наблюдаете с бортика.</p><span class="age">0–3 года</span></div>
       <div class="card"><div class="ico">🏊</div><h3>Раннее плавание</h3><p>Постановка дыхания, скольжение, первые стили. Ребёнок начинает плавать самостоятельно.</p><span class="age">3–7 лет</span></div>
       <div class="card"><div class="ico">💞</div><h3>АкваМама</h3><p>Занятие для мамы и малыша вместе: игры, песни, упражнения на воде в комфортном темпе.</p><span class="age">совместно</span></div>
       <div class="card"><div class="ico">🤲</div><h3>Детский массаж</h3><p>Хорошо сочетается с плаванием: снимает напряжение и помогает ребёнку расслабиться после воды.</p><span class="age">по записи</span></div>
@@ -381,7 +470,7 @@ footer a{color:var(--aqua);text-decoration:none}
     <p class="lead">Приходите за 10–15 минут до начала, чтобы спокойно переодеться и осмотреться.</p>
     <div class="steps">
       <div class="step"><b>Знакомимся</b><span>Расспрашиваем про возраст, особенности малыша и ваши ожидания от занятий.</span></div>
-      <div class="step"><b>Готовимся</b><span>Переодеваемся, показываем бассейн и раздевалку, объясняем, как держать ребёнка.</span></div>
+      <div class="step"><b>Готовимся</b><span>Переодеваемся, показываем бассейн и раздевалку, рассказываем, как пройдёт занятие.</span></div>
       <div class="step"><b>Занятие в воде</b><span>Тренер рядом всё время. Работаем в темпе ребёнка, без принуждения и слёз.</span></div>
       <div class="step"><b>Обсуждаем</b><span>После занятия рассказываем, что получилось, и составляем план дальнейших встреч.</span></div>
     </div>
@@ -421,6 +510,10 @@ footer a{color:var(--aqua);text-decoration:none}
       <div class="price-row"><span>Хореография, нейрофитнес · 1 занятие</span><span>600 ₽</span></div>
       <div class="price-row"><span>Хореография, нейрофитнес · 8 занятий</span><span>4 000 ₽</span></div>
       <div class="price-row"><span>Детский массаж</span><span>по запросу</span></div>
+    </div>
+    <div class="promo">
+      <span class="promo-ico">🎁</span>
+      <div><b>Скидка 5% на абонементы</b><span>Многодетным семьям и детям с инвалидностью. Скажите об этом при записи.</span></div>
     </div>
     <p class="price-note">Оплата картой, наличными или онлайн. Актуальные цены и свободное время подскажем в MAX.</p>
   </div>
@@ -507,7 +600,7 @@ footer a{color:var(--aqua);text-decoration:none}
       <details open><summary>С какого возраста можно начинать?</summary><p>Мы занимаемся с детьми от 0 до 7 лет. Начинать можно совсем малышами · программа подбирается под возраст.</p></details>
       <details><summary>Что взять с собой на первое занятие?</summary><p>Плавки или подгузник для бассейна, полотенце, сменную обувь и шапочку. Остальное подскажем при записи.</p></details>
       <details><summary>Нужна ли справка от врача?</summary><p>Уточните этот вопрос при записи по телефону · требования зависят от возраста ребёнка.</p></details>
-      <details><summary>Родитель заходит в воду вместе с ребёнком?</summary><p>С малышами · да, взрослый в воде рядом. Дети постарше занимаются с тренером самостоятельно.</p></details>
+      <details><summary>Родитель заходит в воду вместе с ребёнком?</summary><p>Нет. В воде находятся только тренер и малыш · так ребёнок быстрее привыкает и доверяет тренеру. Вы всё время рядом, у бортика.</p></details>
       <details><summary>Какая вода в бассейне?</summary><p>Бассейн крытый, с подогревом, три дорожки. Есть парковка, Wi-Fi и комната отдыха.</p></details>
       <details><summary>Как записаться?</summary><p>Напишите нам в MAX или позвоните по номеру +7 918 652-50-00. Работаем ежедневно с 09:00 до 20:00 по записи.</p></details>
     </div>
@@ -535,7 +628,7 @@ footer a{color:var(--aqua);text-decoration:none}
 
 <footer>
   <div class="wrap">
-    <img class="foot-logo" src="img/logo.jpg" alt="Логотип центра"><br>
+    <img class="foot-logo" src="img/logo-wide.jpg" alt="Центр раннего и грудничкового плавания Александры Макаровой"><br>
     Центр раннего и грудничкового плавания Александры Макаровой · Адлер, Сочи<br>
     <a href="tel:+79186525000">+7 918 652-50-00</a>
   </div>
@@ -546,6 +639,29 @@ footer a{color:var(--aqua);text-decoration:none}
   <a class="btn btn-primary" href="https://max.ru/u/f9LHodD0cOLBpSCNFxNvDHPPr1ZwuQQfxLt-Y0Nf55uvILuvKkMdiBUb67w" target="_blank" rel="noopener">Записаться</a>
 </div>
 
+<script>
+(function(){
+  var sp=document.getElementById('splash');
+  if(!sp) return;
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var seen=false;
+  try{ seen=sessionStorage.getItem('splashSeen')==='1'; }catch(e){}
+  if(reduce||seen){ sp.parentNode.removeChild(sp); return; }
+  var root=document.documentElement;
+  root.classList.add('splash-on');
+  var closed=false;
+  function done(){
+    if(closed) return; closed=true;
+    sp.classList.add('out');
+    root.classList.remove('splash-on');
+    try{ sessionStorage.setItem('splashSeen','1'); }catch(e){}
+    setTimeout(function(){ if(sp.parentNode) sp.parentNode.removeChild(sp); },700);
+  }
+  setTimeout(done,2200);
+  sp.addEventListener('click',done);
+  sp.addEventListener('touchstart',done,{passive:true});
+})();
+</script>
 <script>
 const io = new IntersectionObserver((es)=>{
   es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
